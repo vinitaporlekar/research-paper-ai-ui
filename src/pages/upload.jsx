@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Upload as UploadIcon, FileText, Loader2, CheckCircle, XCircle } from 'lucide-react';
+//import { getUserId } from '../utils/userSession';
 
 export default function Upload() {
   const [file, setFile] = useState(null);
@@ -27,13 +28,13 @@ export default function Upload() {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('user_id', 'demo-user');
+    formData.append('user_id', getUserId()); // CHANGED: Use getUserId()
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
         method: 'POST',
         headers: {
-          'Access-Control-Allow-Origin': '*'
+          'X-API-Key': import.meta.env.VITE_API_KEY, // CHANGED: Use API key
         },
         body: formData,
       });
