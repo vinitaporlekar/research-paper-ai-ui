@@ -7,7 +7,7 @@ export default function Upload() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleFileChange = (e) => {
+  const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile);
@@ -72,7 +72,7 @@ export default function Upload() {
                 type="file"
                 className="hidden"
                 accept=".pdf,application/pdf"
-                onChange={handleFileChange}
+                onChange={handleFileUpload}
                 disabled={uploading}
               />
             </label>
