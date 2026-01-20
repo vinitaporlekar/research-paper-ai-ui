@@ -6,7 +6,9 @@ Clean and intuitive React interface for AI-powered research paper management.
 
 https://github.com/user-attachments/assets/836dfa08-6050-4eb0-a002-585e64584885
 
-
+## AI
+- Used Gemini-2.5-flash LLM 🧠
+- Prompt instruction to output structured json output compliant with Supabase PosgreSQL table schema
 
 ## Backend Repo Ref
 https://github.com/vinitaporlekar/research-paper-ai-api/ 
