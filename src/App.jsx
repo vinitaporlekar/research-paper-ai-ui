@@ -15,15 +15,19 @@ function App() {
   const [chatPaperId, setChatPaperId] = useState(null);
   const userId = getUserId();
 
-  // Fetch papers on component mount
-  useEffect(() => {
-    fetchPapers();
-  }, []);
+// Fetch papers on component mount
+useEffect(() => {
+  fetchPapers();
+}, []);
 
-  const fetchPapers = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/papers?user_id=${userId}`);
-      const data = await response.json();
+const fetchPapers = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/papers?user_id=${userId}`, {
+      headers: {
+        'X-API-Key': import.meta.env.VITE_API_KEY,
+      },
+    });
+    const data = await response.json();
       // parse data.papers.authors from string to array if needed
       data.papers.forEach(paper => {
         if (typeof paper.authors === 'string') {
@@ -64,6 +68,9 @@ function App() {
     try {
       const response = await fetch(`${API_BASE_URL}/upload`, {
         method: 'POST',
+        headers: {
+          'X-API-Key': import.meta.env.VITE_API_KEY,
+        },
         body: formData,
       });
 
@@ -103,14 +110,18 @@ function App() {
     }
   };
 
-  const deletePaper = async (title) => {
+  const deletePaper = async (paperId) => {
+
     if (!window.confirm('Are you sure you want to delete this paper?')) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/papers/${encodeURIComponent(title)}?user_id=${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/papers/${paperId}?user_id=${userId}`, {
         method: 'DELETE',
+        headers: {
+          'X-API-Key': import.meta.env.VITE_API_KEY,
+        },
       });
-
+      
       if (response.ok) {
         fetchPapers();
         if (selectedPaper && selectedPaper.title === title) {
@@ -419,6 +430,7 @@ function App() {
       </div>
     </div>
   );
+
 }
 
 export default App;
