@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import ChatInterface from '../components/ChatInterface';
+import ChatInterface from '../components/InterfaceChat';
 import { getUserId } from '../utils/userSession';
 
 export default function ChatPage({ paperId, onBack }) {
