@@ -11,7 +11,9 @@ function App() {
   const [isUploading, setIsUploading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [dragActive, setDragActive] = useState(false);
-  const [userId] = useState('default-user');
+  const [currentView, setCurrentView] = useState('library');
+  const [chatPaperId, setChatPaperId] = useState(null);
+  const userId = getUserId();
 
   // Fetch papers on component mount
   useEffect(() => {
