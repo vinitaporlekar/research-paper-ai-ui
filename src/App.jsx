@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, FileText, Search, Trash2, Eye, Tag, Users, Calendar, ExternalLink } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Upload, FileText, Search, Trash2, Eye, Tag, Users, Calendar, ExternalLink, MessageCircle } from 'lucide-react';
+import ChatPage from './pages/ChatPage';
+import { getUserId } from './utils/userSession';
 
-const API_BASE_URL = 'http://localhost:8000'; // Update this to match your FastAPI server
+const API_BASE_URL = 'import.meta.env.VITE_API_URL;'
 
 function App() {
   const [papers, setPapers] = useState([]);
