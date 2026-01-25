@@ -145,6 +145,15 @@ function App() {
           <p className="text-lg text-slate-600">Upload, organize, and explore your research papers with AI-powered insights</p>
         </div>
 
+         {/* Simple Stats */}
+        {papers.length > 0 && (
+          <div className="flex justify-center mb-6">
+            <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+              📚 {papers.length} papers in your library
+            </div>
+          </div>
+        )}
+
         {/* Upload Section */}
         <div className="mb-8">
           <div
