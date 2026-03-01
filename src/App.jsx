@@ -3,7 +3,8 @@ import { Upload, FileText, Search, Trash2, Eye, Tag, Users, Calendar, ExternalLi
 import ChatPage from './pages/ChatPage';
 import { getUserId } from './utils/userSession';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
 
 function App() {
   const [papers, setPapers] = useState([]);
