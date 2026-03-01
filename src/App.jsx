@@ -3,7 +3,7 @@ import { Upload, FileText, Search, Trash2, Eye, Tag, Users, Calendar, ExternalLi
 import ChatPage from './pages/ChatPage';
 import { getUserId } from './utils/userSession';
 
-const API_BASE_URL = 'import.meta.env.VITE_API_URL;'
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [papers, setPapers] = useState([]);
@@ -15,19 +15,19 @@ function App() {
   const [chatPaperId, setChatPaperId] = useState(null);
   const userId = getUserId();
 
-// Fetch papers on component mount
-useEffect(() => {
-  fetchPapers();
-}, []);
+  // Fetch papers on component mount
+  useEffect(() => {
+    fetchPapers();
+  }, []);
 
-const fetchPapers = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/papers?user_id=${userId}`, {
-      headers: {
-        'X-API-Key': import.meta.env.VITE_API_KEY,
-      },
-    });
-    const data = await response.json();
+  const fetchPapers = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/papers?user_id=${userId}`, {
+        headers: {
+          'X-API-Key': import.meta.env.VITE_API_KEY,
+        },
+      });
+      const data = await response.json();
       // parse data.papers.authors from string to array if needed
       data.papers.forEach(paper => {
         if (typeof paper.authors === 'string') {
@@ -66,7 +66,7 @@ const fetchPapers = async () => {
     formData.append('user_id', userId);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/upload`, {
+      const response = await fetch(`${API_BASE_URL}/upload?user_id=${userId}`, {
         method: 'POST',
         headers: {
           'X-API-Key': import.meta.env.VITE_API_KEY,
@@ -76,7 +76,7 @@ const fetchPapers = async () => {
 
       if (response.ok) {
         const result = await response.json();
-        fetchPapers(); // Refresh the papers list
+        fetchPapers();
         alert('Paper uploaded and processed successfully!');
       } else {
         const error = await response.json();
@@ -110,12 +110,11 @@ const fetchPapers = async () => {
     }
   };
 
-  const deletePaper = async (paperId) => {
-
+  const deletePaper = async (title) => {
     if (!window.confirm('Are you sure you want to delete this paper?')) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/papers/${paperId}?user_id=${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/papers/${encodeURIComponent(title)}?user_id=${userId}`, {
         method: 'DELETE',
         headers: {
           'X-API-Key': import.meta.env.VITE_API_KEY,
@@ -139,7 +138,7 @@ const fetchPapers = async () => {
 
   const filteredPapers = papers.filter(paper =>
     paper.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    paper.authors.some(author => author.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    paper.authors?.some(author => author.toLowerCase().includes(searchTerm.toLowerCase())) ||
     paper.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
@@ -160,7 +159,7 @@ const fetchPapers = async () => {
           <p className="text-lg text-slate-600">Upload, organize, and explore your research papers with AI-powered insights</p>
         </div>
 
-         {/* Simple Stats */}
+        {/* Simple Stats */}
         {papers.length > 0 && (
           <div className="flex justify-center mb-6">
             <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
@@ -206,8 +205,7 @@ const fetchPapers = async () => {
           </div>
         </div>
 
-        {/* Enhanced Search Bar */}
-        {/* Simple Search Bar */}
+        {/* Search Bar */}
         <div className="mb-8">
           <div className="max-w-2xl mx-auto">
             <div className="relative">
@@ -430,7 +428,6 @@ const fetchPapers = async () => {
       </div>
     </div>
   );
-
 }
 
 export default App;
